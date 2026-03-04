@@ -4,7 +4,7 @@ import { computed } from 'vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
-const showAdminHeader = computed(() => route.path.startsWith('/admin'));
+const showAdminHeader = computed(() => route.path.startsWith('/admin') || route.path.startsWith('/waiter'));
 </script>
 
 <template>
