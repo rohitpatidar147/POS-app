@@ -8,7 +8,7 @@
       <img
         :src="avatarSrc"
         class="w-8 h-8 rounded-full border object-cover"
-        alt="Admin avatar"
+        :alt="`${currentUser?.username} avatar`"
       />
     </button>
 
@@ -16,7 +16,13 @@
       v-if="open"
       class="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-slate-100 py-2 z-20"
     >
+      <div class="px-3 py-2 border-b border-slate-100">
+        <p class="text-sm font-semibold text-slate-900">{{ currentUser?.username }}</p>
+        <p class="text-xs text-slate-400 capitalize">{{ userRole }}</p>
+      </div>
+
       <button
+        v-if="userRole === 'admin'"
         type="button"
         class="w-full flex items-center justify-between px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
         @click="goToAddMenuItem"
@@ -26,11 +32,12 @@
       </button>
 
       <button
+        v-if="userRole === 'admin'"
         type="button"
         class="w-full flex items-center justify-between px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
         @click="goToCreateWaiter"
       >
-        <span>Create waiter account</span>
+        <span>Waiter Accounts</span>
         <span class="text-xs text-slate-400">→</span>
       </button>
 
@@ -42,7 +49,7 @@
         <span>Change profile picture</span>
       </button>
 
-      <div class="my-1 border-t border-slate-100" />
+      <div v-if="userRole === 'admin'" class="my-1 border-t border-slate-100" />
 
       <button
         type="button"
@@ -69,7 +76,8 @@ import { useUserSettingsDropdown } from './userSettingsDropdown.js';
 const {
   open,
   avatarSrc,
-  fileInput,
+  userRole,
+  currentUser,
   toggleMenu,
   goToAddMenuItem,
   goToCreateWaiter,

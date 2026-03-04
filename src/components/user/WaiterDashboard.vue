@@ -1,19 +1,14 @@
 <template>
-  <div class="min-h-screen bg-slate-100 flex items-center justify-center">
-    <div class="bg-white rounded-lg shadow p-6 w-full max-w-md text-center space-y-4">
-      <h1 class="text-2xl font-semibold">Waiter Dashboard</h1>
-      <p class="text-slate-600">
-        Welcome, <span class="font-semibold">{{ currentUser?.username }}</span>.
-      </p>
-      <p class="text-sm text-slate-500">
-        This is a placeholder page. You can later add tables, orders, and other POS features here.
-      </p>
-      <button
-        class="mt-2 px-4 py-2 bg-red-500 hover:bg-red-600 text-white rounded text-sm"
-        @click="logout"
-      >
-        Logout
-      </button>
+  <div class="min-h-screen bg-[#F8F9FB] flex flex-col font-sans text-slate-700">
+    <AdminHeader />
+
+    <div class="flex flex-1 overflow-hidden">
+      <main class="flex-1 overflow-y-auto p-6 space-y-8">
+        <OrderList />
+        <MenuSection />
+      </main>
+
+      <OrderSidebar />
     </div>
   </div>
 </template>
@@ -21,6 +16,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
+import AdminHeader from '../header/AdminHeader.vue';
+import OrderList from '../order-list/OrderList.vue';
+import MenuSection from '../menu-section/MenuSection.vue';
+import OrderSidebar from '../order-sidebar/OrderSidebar.vue';
 
 const router = useRouter();
 
@@ -49,10 +48,5 @@ onMounted(() => {
     router.push('/');
   }
 });
-
-const logout = () => {
-  localStorage.removeItem('currentUser');
-  router.push('/');
-};
 </script>
 

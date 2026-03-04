@@ -49,7 +49,7 @@
     <!-- Right: user controls, flush to right edge -->
     <div class="flex items-center gap-4 pr-4" id="user-settings-dropdown-root">
       <button class="p-2 text-slate-400" type="button">
-        <span class="pi pi-bell" />
+        <span class="pi pi-bell"/>
       </button>
       <UserSettingsDropdown />
     </div>
@@ -66,7 +66,7 @@ const route = useRoute();
 
 const navLinkClass = (path: string) =>
   route.path === path
-    ? "inline-flex items-center gap-2 pb-1 relative transition-colors duration-800 text-[#eb8f34] after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-[#eb8f34] after:origin-left after:scale-x-100 after:transition-transform after:duration-800"
-    : "inline-flex items-center gap-2 pb-1 relative transition-colors duration-800 text-slate-500 hover:text-[#eb8f34] after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-[#eb8f34] after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-800";
+    ? "inline-flex items-center gap-2 pb-1 relative transition-colors duration-300 text-[#eb8f34] after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-[#eb8f34] after:origin-left after:scale-x-100 after:transition-transform after:duration-800"
+    : "inline-flex items-center gap-2 pb-1 relative transition-colors duration-300 text-slate-500 hover:text-[#eb8f34] after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-[#eb8f34] after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-800";
 </script>
 

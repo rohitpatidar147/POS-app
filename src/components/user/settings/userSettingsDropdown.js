@@ -5,6 +5,51 @@ export function useUserSettingsDropdown() {
   const router = useRouter();
   const open = ref(false);
   const avatarSrc = ref('https://ui-avatars.com/api/?name=Admin');
+  const userRole = ref('admin');
+  const currentUser = ref(null);
+
+  const getCurrentUserRole = () => {
+    const stored = localStorage.getItem('currentUser');
+    if (stored) {
+      try {
+        const user = JSON.parse(stored);
+        return user.role || 'admin';
+      } catch {
+        return 'admin';
+      }
+    }
+    return 'admin';
+  };
+
+  const getCurrentUser = () => {
+    const stored = localStorage.getItem('currentUser');
+    if (stored) {
+      try {
+        return JSON.parse(stored);
+      } catch {
+        return null;
+      }
+    }
+    return null;
+  };
+
+  const getProfileImageKey = () => {
+    const user = getCurrentUser();
+    if (!user) return 'adminProfileImage';
+    
+    if (user.role === 'waiter') {
+      return `waiterProfileImage_${user.username}`;
+    }
+    return 'adminProfileImage';
+  };
+
+  const getPlaceholderAvatar = () => {
+    const user = getCurrentUser();
+    if (!user) return 'https://ui-avatars.com/api/?name=Admin';
+    
+    const name = user.username || (user.role === 'waiter' ? 'Waiter' : 'Admin');
+    return `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}`;
+  };
 
   const toggleMenu = () => {
     open.value = !open.value;
@@ -22,7 +67,7 @@ export function useUserSettingsDropdown() {
 
   const goToCreateWaiter = () => {
     open.value = false;
-    router.push('/admin/create-waiter');
+    router.push('/admin/waiter-accounts');
   };
 
   const goToAddMenuItem = () => {
@@ -53,7 +98,8 @@ export function useUserSettingsDropdown() {
       const result = reader.result;
       if (typeof result === 'string') {
         avatarSrc.value = result;
-        localStorage.setItem('adminProfileImage', result);
+        const key = getProfileImageKey();
+        localStorage.setItem(key, result);
       }
     };
 
@@ -67,9 +113,16 @@ export function useUserSettingsDropdown() {
   };
 
   onMounted(() => {
-    const savedAvatar = localStorage.getItem('adminProfileImage');
+    currentUser.value = getCurrentUser();
+    userRole.value = getCurrentUserRole();
+    
+    const key = getProfileImageKey();
+    const savedAvatar = localStorage.getItem(key);
+    
     if (savedAvatar) {
       avatarSrc.value = savedAvatar;
+    } else {
+      avatarSrc.value = getPlaceholderAvatar();
     }
 
     window.addEventListener('click', handleClickOutside);
@@ -82,6 +135,8 @@ export function useUserSettingsDropdown() {
   return {
     open,
     avatarSrc,
+    userRole,
+    currentUser,
     toggleMenu,
     goToAddMenuItem,
     goToCreateWaiter,

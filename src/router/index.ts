@@ -5,6 +5,7 @@ import AuthFrontend from '../components/user/auth/auth.frontend.vue';
 import AdminDashboard from '../components/user/AdminDashboard.vue';
 import WaiterDashboard from '../components/user/WaiterDashboard.vue';
 import CreateWaiterPage from '../components/create-waiter/CreateWaiterPage.vue';
+import WaiterAccountsPage from '../components/waiter-accounts/WaiterAccountsPage.vue';
 import AddMenuItemPage from '../components/add-menu-item/AddMenuItemPage.vue';
 import EditMenuItemPage from '../components/edit-menu-item/EditMenuItemPage.vue';
 import OrderList from '../components/order-list/OrderList.vue';
@@ -41,6 +42,11 @@ const routes: RouteRecordRaw[] = [
     path: '/admin/create-waiter',
     name: 'admin-create-waiter',
     component: CreateWaiterPage
+  },
+  {
+    path: '/admin/waiter-accounts',
+    name: 'admin-waiter-accounts',
+    component: WaiterAccountsPage
   },
   {
     path: '/admin/add-menu-item',
