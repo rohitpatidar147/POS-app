@@ -96,7 +96,22 @@ function processOrder() {
     return;
   }
   errorMsg.value = '';
-  orderStore.processTransaction(customerName.value, table.value);
+  
+  // Get current user info
+  const stored = localStorage.getItem('currentUser');
+  let waiterUsername = 'Unknown';
+  let waiterName = 'Unknown';
+  if (stored) {
+    try {
+      const user = JSON.parse(stored);
+      waiterUsername = user.username || 'Unknown';
+      waiterName = user.username || 'Unknown'; // Use username as name since we don't have separate name field
+    } catch {
+      // Keep defaults
+    }
+  }
+  
+  orderStore.processTransaction(customerName.value, table.value, waiterUsername, waiterName);
   customerName.value = '';
   table.value = '';
 }

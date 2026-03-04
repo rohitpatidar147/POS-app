@@ -6,7 +6,7 @@
           <h1 class="text-2xl font-bold text-slate-800">Order List</h1>
           <p class="text-sm text-slate-500 mt-1">View and manage all orders</p>
         </div>
-        <OrderList />
+        <OrderList :show-items="true" :allow-status-change="true" :allow-remove="true" :hide-completed="true" :hide-from-kitchen="true" />
       </main>
     </div>
   </div>

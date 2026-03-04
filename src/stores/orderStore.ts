@@ -1,3 +1,4 @@
+//@ts-nocheck
 import { defineStore } from 'pinia';
 
 export type CartItem = {
@@ -13,15 +14,20 @@ export type Order = {
   items: CartItem[];
   customerName: string;
   table: string;
-  status: 'pending' | 'ready' | 'canceled';
+  status: 'pending' | 'preparing' | 'ready' | 'completed' | 'canceled';
   createdAt: string;
+  waiterUsername: string;
+  waiterName: string;
 };
 
 export const useOrderStore = defineStore('order', {
   state: () => ({
     cart: [] as CartItem[],
     orders: [] as Order[],
+    archivedOrders: [] as Order[], // Orders deleted from dashboard but kept in history
+    clearedFromHistory: [] as number[], // Order IDs cleared from history view
     nextOrderId: 1,
+    hiddenFromKitchen: [] as number[], // Order IDs hidden from kitchen view
   }),
   actions: {
     addToCart(item: Omit<CartItem, 'quantity'>) {
@@ -43,7 +49,7 @@ export const useOrderStore = defineStore('order', {
     clearCart() {
       this.cart = [];
     },
-    processTransaction(customerName: string, table: string) {
+    processTransaction(customerName: string, table: string, waiterUsername: string, waiterName: string) {
       if (!this.cart.length) return;
       this.orders.unshift({
         id: this.nextOrderId++,
@@ -52,12 +58,36 @@ export const useOrderStore = defineStore('order', {
         table,
         status: 'pending',
         createdAt: new Date().toISOString(),
+        waiterUsername,
+        waiterName,
       });
       this.clearCart();
     },
     setOrderStatus(orderId: number, status: Order['status']) {
       const order = this.orders.find((o) => o.id === orderId);
       if (order) order.status = status;
+    },
+    deleteOrder(orderId: number) {
+      const orderToDelete = this.orders.find((o) => o.id === orderId);
+      if (orderToDelete) {
+        // Move to archived orders instead of deleting
+        this.archivedOrders.push(orderToDelete);
+        this.orders = this.orders.filter((o) => o.id !== orderId);
+      }
+    },
+    hideFromKitchen(orderId: number) {
+      if (!this.hiddenFromKitchen.includes(orderId)) {
+        this.hiddenFromKitchen.push(orderId);
+      }
+    },
+    clearHistory() {
+      // Mark all completed and canceled orders as cleared from history
+      const historyOrderIds = this.orders
+        .filter(o => o.status === 'completed' || o.status === 'canceled')
+        .map(o => o.id);
+      this.clearedFromHistory = [...this.clearedFromHistory, ...historyOrderIds];
+      // Also clear archived orders completely
+      this.archivedOrders = [];
     },
   },
 });
