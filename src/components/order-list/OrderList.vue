@@ -41,7 +41,7 @@
           >
             <div class="flex-1">
               <p class="font-medium text-slate-700">{{ item.name }}</p>
-              <p class="text-slate-400 text-[10px]">₹{{ item.price.toFixed(2) }}</p>
+              <p class="text-slate-400 text-[10px]">{{ item.price.toFixed(2) }} AED</p>
             </div>
             <span class="text-slate-500 font-bold">x{{ item.quantity }}</span>
           </div>

@@ -13,6 +13,7 @@ export type Order = {
   id: number;
   items: CartItem[];
   customerName: string;
+  orderType: 'dine-in' | 'takeout' | 'delivery';
   table: string;
   status: 'pending' | 'preparing' | 'ready' | 'completed' | 'canceled';
   createdAt: string;
@@ -49,12 +50,13 @@ export const useOrderStore = defineStore('order', {
     clearCart() {
       this.cart = [];
     },
-    processTransaction(customerName: string, table: string, waiterUsername: string, waiterName: string) {
+    processTransaction(customerName: string, table: string, waiterUsername: string, waiterName: string, orderType: 'dine-in' | 'takeout' | 'delivery') {
       if (!this.cart.length) return;
       this.orders.unshift({
         id: this.nextOrderId++,
         items: JSON.parse(JSON.stringify(this.cart)),
         customerName,
+        orderType,
         table,
         status: 'pending',
         createdAt: new Date().toISOString(),

@@ -13,8 +13,18 @@
         class="w-full bg-slate-50 border-none rounded-xl p-3 text-sm mb-3 focus:ring-2 focus:ring-indigo-500"
       />
       <select
+        v-model="orderType"
+        class="w-full bg-slate-50 border-none rounded-xl p-3 text-sm mb-3 focus:ring-2 focus:ring-indigo-500"
+      >
+        <option value="dine-in">Dine-in</option>
+        <option value="takeout">Takeout</option>
+        <option value="delivery">Delivery</option>
+      </select>
+      <select
         v-model="table"
         class="w-full bg-slate-50 border-none rounded-xl p-3 text-sm focus:ring-2 focus:ring-indigo-500"
+        :class="{ 'opacity-50': orderType !== 'dine-in' }"
+        :disabled="orderType !== 'dine-in'"
       >
         <option value="">Select Table</option>
         <option v-for="n in 10" :key="n" :value="`Table ${n}`">Table {{ n }}</option>
@@ -75,6 +85,7 @@ import { useOrderStore } from '../../stores/orderStore';
 
 const orderStore = useOrderStore();
 const customerName = ref('');
+const orderType = ref<'dine-in' | 'takeout' | 'delivery'>('dine-in');
 const table = ref('');
 const errorMsg = ref('');
 
@@ -91,10 +102,17 @@ function removeItem(itemId: number) {
   orderStore.removeFromCart(itemId);
 }
 function processOrder() {
-  if (!customerName.value.trim() || !table.value.trim()) {
-    errorMsg.value = 'Please enter customer name and select table before processing.';
+  if (!customerName.value.trim()) {
+    errorMsg.value = 'Please enter customer name before processing.';
     return;
   }
+  
+  // Table is mandatory only for dine-in
+  if (orderType.value === 'dine-in' && !table.value.trim()) {
+    errorMsg.value = 'Please select a table for dine-in orders.';
+    return;
+  }
+  
   errorMsg.value = '';
   
   // Get current user info
@@ -111,8 +129,12 @@ function processOrder() {
     }
   }
   
-  orderStore.processTransaction(customerName.value, table.value, waiterUsername, waiterName);
+  // Use table value or appropriate default based on order type
+  const tableValue = orderType.value === 'dine-in' ? table.value : orderType.value === 'takeout' ? 'Takeout' : 'Delivery';
+  
+  orderStore.processTransaction(customerName.value, tableValue, waiterUsername, waiterName, orderType.value);
   customerName.value = '';
+  orderType.value = 'dine-in';
   table.value = '';
 }
 </script>
