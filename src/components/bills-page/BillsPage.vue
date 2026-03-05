@@ -60,9 +60,9 @@
                   >
                     <div class="flex-1">
                       <p class="text-slate-700">{{ item.name }}</p>
-                      <p class="text-xs text-slate-500">{{ item.quantity }} × ₹{{ item.price }}</p>
+                      <p class="text-xs text-slate-500">{{ item.quantity }} ×{{ item.price }} AED</p>
                     </div>
-                    <p class="font-semibold text-slate-800">₹{{ (item.quantity * item.price).toFixed(2) }}</p>
+                    <p class="font-semibold text-slate-800">{{ (item.quantity * item.price).toFixed(2) }} AED</p>
                   </div>
                 </div>
               </div>
@@ -71,15 +71,19 @@
               <div class="pt-4 border-t-2 border-slate-300">
                 <div class="flex justify-between items-center mb-1">
                   <p class="text-sm text-slate-600">Subtotal</p>
-                  <p class="text-sm text-slate-800">₹{{ getOrderSubtotal(order).toFixed(2) }}</p>
+                  <p class="text-sm text-slate-800">{{ getOrderSubtotal(order).toFixed(2) }} AED</p>
                 </div>
                 <div class="flex justify-between items-center mb-2">
                   <p class="text-sm text-slate-600">Tax (5%)</p>
-                  <p class="text-sm text-slate-800">₹{{ getOrderTax(order).toFixed(2) }}</p>
+                  <p class="text-sm text-slate-800">{{ getOrderTax(order).toFixed(2) }} AED</p>
+                </div>
+                <div v-if="getOrderCharge(order) > 0" class="flex justify-between items-center mb-2">
+                  <p class="text-sm text-slate-600">Table Charge</p>
+                  <p class="text-sm text-slate-800">{{ getOrderCharge(order).toFixed(2) }} AED</p>
                 </div>
                 <div class="flex justify-between items-center pt-2 border-t border-slate-200">
                   <p class="text-base font-bold text-slate-800">Total</p>
-                  <p class="text-lg font-bold text-slate-800">₹{{ getOrderTotal(order).toFixed(2) }}</p>
+                  <p class="text-lg font-bold text-slate-800">{{ getOrderTotal(order).toFixed(2) }} AED</p>
                 </div>
               </div>
 
@@ -139,8 +143,8 @@
             <tr v-for="item in printingOrder.items" :key="item.id" class="border-b border-slate-200">
               <td class="py-2 text-sm text-slate-800">{{ item.name }}</td>
               <td class="text-center py-2 text-sm text-slate-600">{{ item.quantity }}</td>
-              <td class="text-right py-2 text-sm text-slate-600">₹{{ item.price }}</td>
-              <td class="text-right py-2 text-sm font-semibold text-slate-800">₹{{ (item.quantity * item.price).toFixed(2) }}</td>
+              <td class="text-right py-2 text-sm text-slate-600">{{ item.price }} AED</td>
+              <td class="text-right py-2 text-sm font-semibold text-slate-800">{{ (item.quantity * item.price).toFixed(2) }} AED</td>
             </tr>
           </tbody>
         </table>
@@ -148,15 +152,19 @@
         <div class="text-right mb-8">
           <div class="flex justify-end mb-2">
             <p class="text-slate-600 mr-8">Subtotal:</p>
-            <p class="font-semibold text-slate-800 w-24">₹{{ getOrderSubtotal(printingOrder).toFixed(2) }}</p>
+            <p class="font-semibold text-slate-800 w-24">{{ getOrderSubtotal(printingOrder).toFixed(2) }} AED</p>
           </div>
           <div class="flex justify-end mb-2">
             <p class="text-slate-600 mr-8">Tax (5%):</p>
-            <p class="font-semibold text-slate-800 w-24">₹{{ getOrderTax(printingOrder).toFixed(2) }}</p>
+            <p class="font-semibold text-slate-800 w-24">{{ getOrderTax(printingOrder).toFixed(2) }} AED</p>
+          </div>
+          <div v-if="getOrderCharge(printingOrder) > 0" class="flex justify-end mb-2">
+            <p class="text-slate-600 mr-8">Table Charge:</p>
+            <p class="font-semibold text-slate-800 w-24">{{ getOrderCharge(printingOrder).toFixed(2) }} AED</p>
           </div>
           <div class="flex justify-end pt-2 border-t-2 border-slate-800">
             <p class="text-lg font-bold text-slate-800 mr-8">Total:</p>
-            <p class="text-lg font-bold text-slate-800 w-24">₹{{ getOrderTotal(printingOrder).toFixed(2) }}</p>
+            <p class="text-lg font-bold text-slate-800 w-24">{{ getOrderTotal(printingOrder).toFixed(2) }} AED</p>
           </div>
         </div>
 
@@ -192,8 +200,12 @@ const getOrderTax = (order: Order) => {
   return getOrderSubtotal(order) * TAX_RATE;
 };
 
+const getOrderCharge = (order: Order) => {
+  return Math.max(0, Number(order.serviceCharge || 0));
+};
+
 const getOrderTotal = (order: Order) => {
-  return getOrderSubtotal(order) + getOrderTax(order);
+  return getOrderSubtotal(order) + getOrderTax(order) + getOrderCharge(order);
 };
 
 const formatDateTime = (dateString: string) => {

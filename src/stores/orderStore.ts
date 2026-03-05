@@ -15,6 +15,7 @@ export type Order = {
   customerName: string;
   orderType: 'dine-in' | 'takeout' | 'delivery';
   table: string;
+  serviceCharge: number;
   status: 'pending' | 'preparing' | 'ready' | 'completed' | 'canceled';
   createdAt: string;
   waiterUsername: string;
@@ -50,7 +51,14 @@ export const useOrderStore = defineStore('order', {
     clearCart() {
       this.cart = [];
     },
-    processTransaction(customerName: string, table: string, waiterUsername: string, waiterName: string, orderType: 'dine-in' | 'takeout' | 'delivery') {
+    processTransaction(
+      customerName: string,
+      table: string,
+      waiterUsername: string,
+      waiterName: string,
+      orderType: 'dine-in' | 'takeout' | 'delivery',
+      serviceCharge = 0,
+    ) {
       if (!this.cart.length) return;
       this.orders.unshift({
         id: this.nextOrderId++,
@@ -58,6 +66,7 @@ export const useOrderStore = defineStore('order', {
         customerName,
         orderType,
         table,
+        serviceCharge,
         status: 'pending',
         createdAt: new Date().toISOString(),
         waiterUsername,

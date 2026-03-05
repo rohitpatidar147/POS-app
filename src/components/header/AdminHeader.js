@@ -18,8 +18,8 @@ export function useAdminHeader() {
 
   const navLinkClass = (path) =>
     route.path === path
-      ? "inline-flex items-center gap-2 pb-1 relative transition-colors duration-300 text-[#eb8f34] after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-[#eb8f34] after:origin-left after:scale-x-100 after:transition-transform after:duration-500"
-      : "inline-flex items-center gap-2 pb-1 relative transition-colors duration-300 text-slate-500 hover:text-[#eb8f34] after:content-[''] after:absolute after:left-0 after:bottom-0 after:h-[2px] after:w-full after:bg-[#eb8f34] after:origin-left after:scale-x-0 hover:after:scale-x-100 after:transition-transform after:duration-500";
+      ? "w-full rounded-lg relative transition-colors duration-300 text-[#d62828] bg-red-50 font-semibold p-3 flex justify-center"
+      : "w-full rounded-lg relative transition-colors duration-300 text-[#f77f00] hover:text-[#d62828] hover:bg-slate-50 p-3 flex justify-center";
 
   return {
     route,

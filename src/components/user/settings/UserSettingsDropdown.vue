@@ -1,8 +1,8 @@
 <template>
-  <div class="relative">
+  <div class="relative w-full">
     <button
       type="button"
-      class="flex items-center gap-2"
+      class="flex flex-col items-center gap-2 w-full px-3 py-2 rounded-lg hover:bg-slate-50 transition"
       @click="toggleMenu"
     >
       <img
@@ -10,15 +10,15 @@
         class="w-8 h-8 rounded-full border object-cover"
         :alt="`${currentUser?.username} avatar`"
       />
+      <span class="text-xs font-semibold text-slate-900 text-center truncate">{{ currentUser?.username }}</span>
     </button>
 
     <div
       v-if="open"
-      class="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-lg border border-slate-100 py-2 z-20"
+      class="absolute left-0 bottom-full mb-2 w-56 bg-white rounded-xl shadow-lg border border-slate-100 py-2 z-20"
     >
       <div class="px-3 py-2 border-b border-slate-100">
-        <p class="text-sm font-semibold text-slate-900">{{ currentUser?.username }}</p>
-        <p class="text-xs text-slate-400 capitalize">{{ userRole }}</p>
+        <p class="text-xs text-slate-400 capitalize">Role: {{ userRole }}</p>
       </div>
 
       <button

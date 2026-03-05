@@ -48,7 +48,7 @@
                   </div>
                 </td>
                 <td class="px-6 py-4 text-sm font-semibold text-slate-700">
-                  ₹{{ calculateTotalWithTax(order.items).toFixed(2) }}
+                  {{ calculateOrderTotal(order).toFixed(2) }} AED
                 </td>
                 <td class="px-6 py-4">
                   <span
@@ -83,7 +83,7 @@
 import { onMounted, computed, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { useOrderStore } from '../../stores/orderStore';
-import type { CartItem } from '../../stores/orderStore';
+import type { CartItem, Order } from '../../stores/orderStore';
 
 const router = useRouter();
 const route = useRoute();
@@ -116,10 +116,14 @@ const calculateSubtotal = (items: CartItem[]) => {
   return items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
 };
 
-const calculateTotalWithTax = (items: CartItem[]) => {
-  const subtotal = calculateSubtotal(items);
+const getOrderCharge = (order: Order) => {
+  return Math.max(0, Number(order.serviceCharge || 0));
+};
+
+const calculateOrderTotal = (order: Order) => {
+  const subtotal = calculateSubtotal(order.items);
   const tax = subtotal * TAX_RATE;
-  return subtotal + tax;
+  return subtotal + tax + getOrderCharge(order);
 };
 
 const formatDate = (dateString: string) => {

@@ -22,7 +22,7 @@
           <h2 class="text-sm font-semibold text-slate-900">
             {{ item.name }}
           </h2>
-          <span class="text-sm font-bold text-sky-600 shrink-0">
+          <span class="text-sm font-bold text-[#f35b04] shrink-0">
             {{ item.price.toFixed(2) }} AED
           </span>
         </header>
@@ -39,7 +39,7 @@
           <button
             type="button"
             @click="editItem(item.id)"
-            class="inline-flex items-center justify-center h-8 w-8 rounded-full text-slate-600 hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-1"
+            class="inline-flex items-center justify-center h-8 w-8 rounded-full text-[#bc3908] hover:bg-slate-100 focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-1"
             title="Edit item"
           >
             <PencilLine class="w-4 h-4" />
@@ -48,7 +48,7 @@
 
         <button
           type="button"
-          class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-sky-500 text-white text-lg leading-none hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-1"
+          class="inline-flex items-center justify-center h-8 w-8 rounded-full bg-[#bc3908] text-white text-lg leading-none hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:ring-offset-1"
           @click="addToCart(item)"
         >
           +

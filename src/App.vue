@@ -8,8 +8,10 @@ const showAdminHeader = computed(() => route.path.startsWith('/admin') || route.
 </script>
 
 <template>
-  <div class="min-h-screen bg-slate-100">
+  <div class="min-h-screen bg-slate-100 flex">
     <AdminHeader v-if="showAdminHeader" />
-    <router-view />
+    <div class="flex-1 flex flex-col">
+      <router-view />
+    </div>
   </div>
 </template>

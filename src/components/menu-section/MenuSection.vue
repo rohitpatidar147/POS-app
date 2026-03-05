@@ -32,19 +32,23 @@
     </div>
 
     <!-- Categories -->
-    <div class="flex items-center gap-4 mb-6 bg-slate-100/50 p-1 rounded-xl w-fit overflow-x-auto">
-      <button
-        v-for="cat in categories"
-        :key="cat"
-        type="button"
-        @click="selectedCategory = cat"
-        :class="[
-          'px-6 py-2 rounded-lg text-sm transition whitespace-nowrap',
-          cat === selectedCategory ? 'bg-white shadow-sm font-bold' : 'text-slate-400 hover:text-slate-600'
-        ]"
-      >
-        {{ cat }}
-      </button>
+    <div class="mb-6">
+      <div class="flex items-center gap-3 overflow-x-auto pb-2">
+        <button
+          v-for="cat in categories"
+          :key="cat"
+          type="button"
+          @click="selectedCategory = cat"
+          :class="[
+            'inline-flex items-center gap-2 px-4 py-3 text-sm whitespace-nowrap transition',
+            cat === selectedCategory 
+              ? 'rounded-3xl bg-red-50 text-[#d62828] font-semibold' 
+              : 'rounded-3xl bg-[#fff8e8] font-semibold text-[#efa00b] hover:bg-red-50 hover:text-[#d62828] hover:font-semibold'
+          ]"
+        >
+          <span>{{ cat }}</span>
+        </button>
+      </div>
     </div>
 
     <p v-if="loading" class="text-sm text-slate-500">Loading menu items...</p>
@@ -64,7 +68,6 @@ const searchQuery = ref<string>('');
 const loading = ref(false);
 const error = ref('');
 const isAdmin = ref(false);
-
 const categories = computed<string[]>(() => {
   const cats = Array.from(new Set(menuItems.value.map((item) => item.category)));
   return ['All', ...cats.sort()];

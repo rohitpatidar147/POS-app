@@ -4,84 +4,15 @@
     <div class="flex items-center justify-between gap-4 mb-4">
       <h2 class="text-lg font-bold">Order List</h2>
       
-      <!-- Filter Tabs -->
-      <div v-if="showFilters" class="flex items-center gap-2 overflow-x-auto">
-        <button
-          @click="selectedFilter = 'all'"
-          type="button"
-          :class="[
-            'flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition whitespace-nowrap',
-            selectedFilter === 'all' ? 'bg-slate-800 text-white' : 'bg-slate-100 text-slate-600'
-          ]"
-        >
-          All
-          <span 
-            :class="[
-              'flex items-center justify-center min-w-[24px] h-6 px-2 rounded-full text-xs font-bold transition',
-              selectedFilter === 'all' ? 'bg-white/20' : 'bg-slate-200'
-            ]"
-          >
-            {{ allCount }}
-          </span>
-        </button>
-        
-        <button
-          @click="selectedFilter = 'dine-in'"
-          type="button"
-          :class="[
-            'flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition whitespace-nowrap',
-            selectedFilter === 'dine-in' ? 'bg-amber-500 text-white' : 'bg-slate-100 text-slate-600'
-          ]"
-        >
-          Dine in
-          <span 
-            :class="[
-              'flex items-center justify-center min-w-[24px] h-6 px-2 rounded-full text-xs font-bold transition',
-              selectedFilter === 'dine-in' ? 'bg-white/20' : 'bg-slate-200'
-            ]"
-          >
-            {{ dineInCount }}
-          </span>
-        </button>
-        
-        <button
-          @click="selectedFilter = 'takeout'"
-          type="button"
-          :class="[
-            'flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition whitespace-nowrap',
-            selectedFilter === 'takeout' ? 'bg-blue-500 text-white' : 'bg-slate-100 text-slate-600'
-          ]"
-        >
-          Take away
-          <span 
-            :class="[
-              'flex items-center justify-center min-w-[24px] h-6 px-2 rounded-full text-xs font-bold transition',
-              selectedFilter === 'takeout' ? 'bg-white/20' : 'bg-slate-200'
-            ]"
-          >
-            {{ takeoutCount }}
-          </span>
-        </button>
-        
-        <button
-          @click="selectedFilter = 'delivery'"
-          type="button"
-          :class="[
-            'flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium transition whitespace-nowrap',
-            selectedFilter === 'delivery' ? 'bg-emerald-500 text-white' : 'bg-slate-100 text-slate-600'
-          ]"
-        >
-          Delivery
-          <span 
-            :class="[
-              'flex items-center justify-center min-w-[24px] h-6 px-2 rounded-full text-xs font-bold transition',
-              selectedFilter === 'delivery' ? 'bg-white/20' : 'bg-slate-200'
-            ]"
-          >
-            {{ deliveryCount }}
-          </span>
-        </button>
-      </div>
+      <!-- Filter Tabs Component -->
+      <OrderFilterTabs 
+        v-model="selectedFilter"
+        :all-count="allCount"
+        :dine-in-count="dineInCount"
+        :takeout-count="takeoutCount"
+        :delivery-count="deliveryCount"
+        :show-filters="showFilters"
+      />
     </div>
     
     <div class="flex gap-4 overflow-x-auto pb-2">
@@ -165,14 +96,14 @@
           <button
             v-if="order.status === 'pending'"
             @click="updateStatus(order.id, 'preparing')"
-            class="w-full px-3 py-2 bg-blue-500 hover:bg-blue-600 text-white text-xs font-bold rounded-lg transition"
+            class="w-full px-3 py-2 bg-[#fec89a] hover:bg-[#f77f00] text-[#f77f00] hover:text-white text-xs font-bold rounded-lg transition"
           >
             Start Preparing
           </button>
           <button
             v-if="order.status === 'preparing'"
             @click="updateStatus(order.id, 'ready')"
-            class="w-full px-3 py-2 bg-emerald-500 hover:bg-emerald-600 text-white text-xs font-bold rounded-lg transition"
+            class="w-full px-3 py-2 bg-red-50 hover:bg-red-100 text-[#d62828] hover:text-[#bc3908] text-xs font-bold rounded-lg transition"
           >
             Mark Ready
           </button>
@@ -222,6 +153,7 @@
 import { computed, ref } from 'vue';
 import { useOrderStore } from '../../stores/orderStore';
 import type { Order } from '../../stores/orderStore';
+import OrderFilterTabs from './OrderFilterTabs.vue';
 
 // Props
 const props = defineProps<{
