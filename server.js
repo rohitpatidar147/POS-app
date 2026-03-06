@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
-import authRouter from './src/components/user/auth/auth.backend.js';
+import authRouter from './src/backend/auth.backend.js';
 import menuRouter from './src/backend/menu.backend.js';
 
 const app = express();

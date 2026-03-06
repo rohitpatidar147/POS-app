@@ -149,4 +149,3 @@ router.delete('/waiters/:id', async (req, res) => {
 });
 
 export default router;
-

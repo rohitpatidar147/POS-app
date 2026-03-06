@@ -59,12 +59,8 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router';
 import { PencilLine } from 'lucide-vue-next';
-import { useOrderStore } from '../../stores/orderStore';
-
-const router = useRouter();
-const orderStore = useOrderStore();
+import { useMenuCards } from './menuCards.js';
 
 export type MenuItem = {
   id: number;
@@ -84,17 +80,6 @@ const props = withDefaults(defineProps<Props>(), {
   isAdmin: false
 });
 
-const editItem = (itemId: number) => {
-  router.push(`/admin/edit-menu-item/${itemId}`);
-};
-
-const addToCart = (item: MenuItem) => {
-  orderStore.addToCart({
-    id: item.id,
-    name: item.name,
-    imageUrl: item.imageUrl,
-    price: item.price,
-  });
-};
+const { editItem, addToCart } = useMenuCards(props);
 </script>
 

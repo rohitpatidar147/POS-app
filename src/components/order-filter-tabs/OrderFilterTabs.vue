@@ -3,7 +3,7 @@
     <button
       v-for="filter in filters"
       :key="filter.id"
-      @click="$emit('update:modelValue', filter.id)"
+      @click="$emit('update:modelValue', filter.id as 'all' | 'dine-in' | 'takeout' | 'delivery')"
       type="button"
       :class="[
         'group flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 whitespace-nowrap',
@@ -27,15 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from 'vue';
-import { LayoutList, UtensilsCrossed, Package, Truck } from 'lucide-vue-next';
-
-interface Filter {
-  id: 'all' | 'dine-in' | 'takeout' | 'delivery';
-  label: string;
-  icon: any;
-  count: number;
-}
+import { useOrderFilterTabs } from './orderFilterTabs.js';
 
 interface Props {
   modelValue: 'all' | 'dine-in' | 'takeout' | 'delivery';
@@ -54,30 +46,5 @@ defineEmits<{
   'update:modelValue': [value: 'all' | 'dine-in' | 'takeout' | 'delivery'];
 }>();
 
-const filters = computed<Filter[]>(() => [
-  {
-    id: 'all',
-    label: 'All',
-    icon: LayoutList,
-    count: props.allCount,
-  },
-  {
-    id: 'dine-in',
-    label: 'Dine In',
-    icon: UtensilsCrossed,
-    count: props.dineInCount,
-  },
-  {
-    id: 'takeout',
-    label: 'Take Away',
-    icon: Package,
-    count: props.takeoutCount,
-  },
-  {
-    id: 'delivery',
-    label: 'Delivery',
-    icon: Truck,
-    count: props.deliveryCount,
-  },
-]);
+const { filters } = useOrderFilterTabs(props);
 </script>

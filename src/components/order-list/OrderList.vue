@@ -153,7 +153,7 @@
 import { computed, ref } from 'vue';
 import { useOrderStore } from '../../stores/orderStore';
 import type { Order } from '../../stores/orderStore';
-import OrderFilterTabs from './OrderFilterTabs.vue';
+import OrderFilterTabs from '../order-filter-tabs/OrderFilterTabs.vue';
 
 // Props
 const props = defineProps<{
