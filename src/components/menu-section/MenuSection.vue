@@ -62,7 +62,6 @@ import MenuCards from '../menu-cards/MenuCards.vue';
 import { useMenuSection } from './menuSection.js';
 
 const {
-  menuItems,
   selectedCategory,
   searchQuery,
   loading,

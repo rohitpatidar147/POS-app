@@ -50,6 +50,15 @@
           <span class="text-xs text-center">Bills</span>
         </div>
       </RouterLink>
+      <RouterLink
+        :to="salesPath"
+        :class="navLinkClass(salesPath)"
+      >
+        <div class="flex flex-col items-center gap-2">
+          <TrendingUp class="w-6 h-6" />
+          <span class="text-xs text-center">Sales</span>
+        </div>
+      </RouterLink>
     </nav>
 
     <!-- User Controls -->
@@ -67,7 +76,7 @@
 <script setup lang="ts">
 import UserSettingsDropdown from '../user/settings/UserSettingsDropdown.vue';
 import hungryDukeLogo from '../../assets/hungryDukeLogo.png';
-import { LayoutDashboard, NotepadText, History, Receipt } from 'lucide-vue-next';
+import { LayoutDashboard, NotepadText, History, Receipt, TrendingUp } from 'lucide-vue-next';
 import { useAdminHeader } from './AdminHeader.js';
 
 const {
@@ -75,6 +84,7 @@ const {
   ordersPath,
   historyPath,
   billsPath,
+  salesPath,
   navLinkClass
 } = useAdminHeader();
 </script>

@@ -15,6 +15,7 @@ export function useAdminHeader() {
   const ordersPath = computed(() => `/${userRole.value}/orders`);
   const historyPath = computed(() => `/${userRole.value}/history`);
   const billsPath = computed(() => `/${userRole.value}/bills`);
+  const salesPath = computed(() => `/${userRole.value}/sales`);
 
   const navLinkClass = (path) =>
     route.path === path
@@ -28,6 +29,7 @@ export function useAdminHeader() {
     ordersPath,
     historyPath,
     billsPath,
+    salesPath,
     navLinkClass
   };
 }

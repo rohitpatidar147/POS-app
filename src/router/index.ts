@@ -10,6 +10,7 @@ import EditMenuItemPage from '../components/edit-menu-item/EditMenuItemPage.vue'
 import OrdersPage from '../components/orders-page/OrdersPage.vue';
 import HistoryPage from '../components/history-page/HistoryPage.vue';
 import BillsPage from '../components/bills-page/BillsPage.vue';
+import SalesHistoryPage from '../components/sales-history/SalesHistoryPage.vue';
 
 const routes: RouteRecordRaw[] = [
   {
@@ -36,6 +37,11 @@ const routes: RouteRecordRaw[] = [
     path: '/admin/bills',
     name: 'admin-bills',
     component: BillsPage
+  },
+  {
+    path: '/admin/sales',
+    name: 'admin-sales',
+    component: SalesHistoryPage
   },
   {
     path: '/admin/waiter-accounts',
@@ -69,6 +75,11 @@ const routes: RouteRecordRaw[] = [
     path: '/waiter/bills',
     name: 'waiter-bills',
     component: BillsPage
+  },
+  {
+    path: '/waiter/sales',
+    name: 'waiter-sales',
+    component: SalesHistoryPage
   }
 ];
 

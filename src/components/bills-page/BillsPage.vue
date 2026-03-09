@@ -200,8 +200,8 @@ const getOrderTax = (order: Order) => {
   return getOrderSubtotal(order) * TAX_RATE;
 };
 
-const getOrderCharge = (_order: Order) => {
-  return 0; // No service charge for now, add serviceCharge property to Order type if needed
+const getOrderCharge = (order: Order) => {
+  return Math.max(0, Number(order.serviceCharge || 0));
 };
 
 const getOrderTotal = (order: Order) => {
